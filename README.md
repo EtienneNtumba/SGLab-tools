@@ -13,7 +13,7 @@
 
 > 🧑‍💻 Développé par **Etienne Ntumba Kabongo**  
 > 🎓 Sous la supervision de **Pr. Simon Grandjean Lapierre** et **Pr. Martin Smith**  
-> 🧬 Laboratoires de bioinformatique, Université de Montréal et McGill University
+> 🧬 Laboratoires de Simon GrandJEAN LAPIERRE, CRCHUM, Université de Montréal 
 
 ---
 
