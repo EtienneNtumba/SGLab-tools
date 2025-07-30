@@ -60,6 +60,10 @@ H37Rv   L1
 H37Rv   L2
 H37Rv   L5
 
+<pre><code>### 1. Préparer un fichier <code>sample.txt</code> ``` Ref L_x H37Rv L1 H37Rv L2 ``` Ce fichier indique les paires à comparer : ici `H37Rv` est comparé avec `L1` et `L2`. Les fichiers suivants doivent être présents : - `H37Rv.fasta`, `L1.fasta`, `L2.fasta` - `H37Rv.bed`, `L1.bed`, `L2.bed` </code></pre>
+
+
+
 Ce fichier indique quelles paires de génomes comparer.
 
 Les fichiers suivants doivent être présents :
