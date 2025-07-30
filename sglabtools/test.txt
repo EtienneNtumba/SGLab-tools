@@ -1,0 +1,114 @@
+# SGLab-tools: Package Python Professionnel pour la Comparaison de Génomes
+
+"""
+Développé par Etienne Ntumba Kabongo
+Sous la supervision du Prof. Dr. Simon Grandjean Lapierre
+Et du co-superviseur Prof. Dr. Martin Smith
+
+Ce projet vise à fournir un outil automatisé, modulaire, reproductible et documenté pour :
+- Alignement de génomes
+- Détection de différences
+- Masquage des régions non fiables
+- Comptage de scénarios d’évolution
+- Résumé de la divergence inter-génomique
+"""
+
+# === sglabtools/cli.py ===
+import typer
+from sglabtools import run_pipeline
+
+app = typer.Typer(help="""
+SGLab-tools 🧬
+
+Un outil professionnel de comparaison de génomes permettant :
+- Alignement pair-à-pair de génomes avec minimap2
+- Extraction et classification des différences (SNPs, InDels, gaps, N)
+- Application de masques à partir de fichiers BED
+- Comptage des scénarios de variation
+- Fusion et comparaison multi-génomes
+
+Développé par Etienne Ntumba Kabongo (Université de Montréal)
+Sous la direction de :
+- Prof. Dr. Simon Grandjean Lapierre
+- Prof. Dr. Martin Smith
+
+Exemples d’usage :
+$ sglab run sample.txt                  # Exécute tout le pipeline
+$ sglab count --input fichier.tsv       # Compte les scénarios sur un fichier TSV
+$ sglab mask --input fichier.tsv --ref H37Rv.bed --query L1.bed
+$ sglab merge                           # Fusionne les fichiers de scénarios
+""")
+
+@app.command("run")
+def run_pipeline_cmd(sample_file: str = typer.Argument(..., help="Fichier TSV contenant les paires Ref / Lx")):
+    """Lancer le pipeline complet (alignement + transformation + masque + comptage + fusion)"""
+    run_pipeline.run_all(sample_file)
+
+@app.command("mask")
+def mask_cmd(
+    input: str = typer.Option(..., "--input", help="Fichier TSV des différences initiales"),
+    ref: str = typer.Option(..., "--ref", help="Fichier BED de la souche de référence"),
+    query: str = typer.Option(..., "--query", help="Fichier BED de la souche comparée")
+):
+    """Appliquer les masques BED à un fichier de différences"""
+    from sglabtools.mask import apply_mask
+    apply_mask(input, ref, query)
+
+@app.command("count")
+def count_cmd(input: str = typer.Option(..., "--input", help="Fichier TSV de différences masquées")):
+    """Compter les scénarios de variation à partir d’un fichier TSV"""
+    from sglabtools.count import count_scenarios
+    count_scenarios(input)
+
+@app.command("merge")
+def merge_cmd():
+    """Fusionner tous les fichiers de scénarios en un seul tableau comparatif"""
+    from sglabtools.merge import merge_counts
+    merge_counts()
+
+if __name__ == "__main__":
+    app()
+
+# === sglabtools/run_pipeline.py ===
+import os
+from sglabtools import transform, mask, count, merge
+
+def run_all(sample_file):
+    """
+    Exécution complète du pipeline pour chaque paire Ref vs Lx définie dans sample.txt
+    Étapes :
+    1. Vérification des fichiers .fasta
+    2. Alignement avec minimap2
+    3. Extraction des différences
+    4. Application des masques
+    5. Comptage des scénarios
+    6. Fusion finale
+    """
+    with open(sample_file, 'r') as f:
+        next(f)  # Ignorer l'entête
+        for line in f:
+            ref, lx = line.strip().split()
+            print(f"\n🧬 Traitement : {ref} vs {lx}")
+            ref_fa = f"{ref}.fasta"
+            lx_fa = f"{lx}.fasta"
+            if not os.path.exists(ref_fa) or not os.path.exists(lx_fa):
+                print(f"❌ Fichier manquant : {ref_fa} ou {lx_fa}")
+                continue
+
+            # Étape 1 : Alignement
+            paf_file = f"alignments_{ref}_{lx}.paf"
+            os.system(f"minimap2 -x asm5 -c {ref_fa} {lx_fa} > {paf_file}")
+            print(f"✅ Alignement produit : {paf_file}")
+
+            # Étape 2 : Extraction des différences
+            table = transform.paf_to_table(ref_fa, lx_fa, paf_file)
+
+            # Étape 3 : Masquage BED
+            masked = mask.apply_mask(table, f"{ref}.bed", f"{lx}.bed")
+
+            # Étape 4 : Comptage des scénarios
+            count.count_scenarios(masked)
+
+    # Étape 5 : Fusion finale
+    merge.merge_counts()
+    print("\n📊 Fusion des scénarios complétée.")

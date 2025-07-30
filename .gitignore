@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.paf
+*.bed
+*.fasta
+*.tsv
+combined_scenarios_counts1.csv
+.scenario_cache/
+dist/
+build/
+*.egg-info/

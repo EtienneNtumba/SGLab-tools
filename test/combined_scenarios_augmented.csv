@@ -1,0 +1,9 @@
+Scenario,OW052570.1,35049,Description,Total
+1️⃣ N/N,127770,114078,N et N identiques,241848
+2️⃣ base/gap,26708,24127,Base (A/C/G/T) alignée sur gap (-),50835
+3️⃣ base/base,3656425,3638109,Base alignée sur base,7294534
+4️⃣ gap/N,437,2035,Gap aligné sur N,2472
+5️⃣ gap/base,554,17350,Gap aligné sur base,17904
+6️⃣ N/base,342739,347868,N aligné sur base,690607
+7️⃣ base/N,288235,309192,Base alignée sur N,597427
+8️⃣ N/gap,1135,113,N aligné sur gap,1248
