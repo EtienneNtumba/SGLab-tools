@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="SGLab-tools",
-    version="1.0.2",
+    version="1.0.3",
     author="Etienne Ntumba Kabongo",
     author_email="etienne.ntumba.kabongo@umontreal.ca",  # mets ton courriel
     description="Outils CLI pour l’analyse comparative de génomes bactériens",
