@@ -22,7 +22,7 @@ $ sglab run sample.txt                            # Exécute tout le pipeline
 $ sglab count --input fichier.tsv                 # Compte les scénarios sur un fichier TSV
 $ sglab mask --input fichier.tsv --ref REF.bed --query L1.bed
 $ sglab merge                                     # Fusionne les fichiers de scénarios
-$ sglab plot                                      # Ajoute des colonnes, exporte les formats et génère des graphiques
+$ sglab plot --input fichier.csv --output-prefix nom --fig bar,heat   # Visualisation personnalisée
 """)
 
 @app.command("run")
@@ -53,18 +53,22 @@ def merge_cmd():
     merge_counts()
 
 @app.command("plot")
-def plot_cmd():
+def plot_cmd(
+    input: str = typer.Option("combined_scenarios_augmented.csv", "--input", help="Fichier CSV en entrée (par défaut: combined_scenarios_augmented.csv)"),
+    output_prefix: str = typer.Option("scenarios", "--output-prefix", help="Préfixe des fichiers de sortie (.csv, .png, etc.)"),
+    fig: str = typer.Option("bar,heat", "--fig", help="Type de figures à générer: bar, heat ou les deux (ex: --fig bar,heat)")
+):
     """
     Enrichit la table de scénarios fusionnée :
     - Ajoute les colonnes 'Description' et 'Total'
     - Exporte les fichiers .csv / .tsv / .xlsx
-    - Génère un barplot comparatif et une heatmap de divergence
+    - Génère un barplot comparatif et/ou une heatmap de divergence
     """
     from sglabtools.augment import augment_table
     from sglabtools.plot import plot_scenarios
 
-    df = augment_table()
-    plot_scenarios()
-    
+    df = augment_table(input_file=input, output_prefix=output_prefix)
+    plot_scenarios(input_file=f"{output_prefix}.csv", output_prefix=output_prefix, fig_types=fig.split(","))
+
 if __name__ == "__main__":
     app()

@@ -1,0 +1,38 @@
+package:
+  name: sglab-tools
+  version: "1.0.2"
+
+source:
+  url: https://pypi.io/packages/source/s/sglab-tools/sglab_tools-1.0.2.tar.gz
+  sha256: <à remplir automatiquement>
+
+build:
+  noarch: python
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
+
+requirements:
+  host:
+    - python >=3.8
+    - pip
+  run:
+    - python >=3.8
+    - typer
+    - pandas
+    - biopython
+    - matplotlib
+    - seaborn
+    - openpyxl
+
+test:
+  commands:
+    - sglab --help
+
+about:
+  home: https://github.com/EtienneNtumba/SGLab-tools
+  summary: "Outil CLI pour l’analyse comparative de génomes bactériens"
+  license: MIT
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - EtienneNtumba

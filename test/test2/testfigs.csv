@@ -1,0 +1,9 @@
+Scenario,Beijinglike,N1177,OW052570,Description,Total
+1️⃣ N/N,114078,89570,127770,N et N identiques,331418
+2️⃣ base/gap,24127,50424,26708,Base (A/C/G/T) alignée sur gap (-),101259
+3️⃣ base/base,3638109,3594196,3656425,Base alignée sur base,10888730
+4️⃣ gap/N,2035,581,437,Gap aligné sur N,3053
+5️⃣ gap/base,17350,13220,554,Gap aligné sur base,31124
+6️⃣ N/base,347868,366840,342739,N aligné sur base,1057447
+7️⃣ base/N,309192,327942,288235,Base alignée sur N,925369
+8️⃣ N/gap,113,5621,1135,N aligné sur gap,6869

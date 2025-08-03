@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+*.log
+
+# Build & distribution
+build/
+dist/
+*.egg-info/
+*.eggs/
+*.whl
+*.tar.gz
+
+# Jupyter / IPython
+.ipynb_checkpoints
+
+# Environnements virtuels
+.env/
+.venv/
+env/
+venv/
+*.env
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PyInstaller
+*.spec
+
+# Tests
+coverage.xml
+htmlcov/
+.cache/
+.tox/
+pytest_cache/
+
+# PyPI token (ne jamais suivre ce fichier si utilisé)
+.pypirc

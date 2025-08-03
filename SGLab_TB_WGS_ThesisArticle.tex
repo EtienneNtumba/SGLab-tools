@@ -1,0 +1,119 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{longtable}
+\usepackage{setspace}
+\usepackage{url}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\title{\textbf{Impact of Reference Genome Selection on Transmission Cluster Detection in \textit{Mycobacterium tuberculosis} Using Whole Genome Sequencing}}
+\author{
+Etienne Ntumba Kabongo$^{1}$, Simon Grandjean Lapierre$^{1}$, Martin Smith$^{2}$\\[1em]
+\small $^{1}$Faculty of Medicine, Université de Montréal, Canada\\
+\small $^{2}$British Columbia Centre for Disease Control, Canada\\
+\small \texttt{etienne.ntumba.kabongo@umontreal.ca}
+}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Whole genome sequencing (WGS) provides unprecedented resolution for studying transmission dynamics of \textit{Mycobacterium tuberculosis} (Mtb). This work evaluates how the selection of the reference genome impacts SNP distances and the inference of transmission clusters. We developed and applied the SGLab-tools CLI to automate comparison workflows. This article highlights the methodology, results, and implications of reference bias in genomic epidemiology.
+\end{abstract}
+
+\section{Introduction}
+Tuberculosis (TB) remains a global health priority. Accurate identification of transmission clusters is essential. Whole genome sequencing (WGS) offers high-resolution analysis, but the accuracy of SNP-based clustering can be influenced by the choice of reference genome. Most pipelines use H37Rv, which may misrepresent diversity in non-Lineage 4 isolates.
+
+\section{Methods}
+\subsection{Sample Collection and Sequencing}
+We analyzed 1,039 Mtb isolates from cohorts in Montreal and The Gambia. Isolates were sequenced on Illumina platforms and processed using the Clockwork pipeline.
+
+\subsection{Reference Genome Strategy}
+Each isolate was aligned both to H37Rv and a lineage-matched genome (Lx). The workflow (see Figure~\ref{fig:workflow}) includes decontamination, QC, variant calling, masking, and distance matrix computation.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{workflow_placeholder.png}
+    \caption{Workflow comparing H37Rv and lineage-specific reference mapping.}
+    \label{fig:workflow}
+\end{figure}
+
+\subsection{Tool Development: SGLab-tools}
+To automate classification of masked regions and summarize evolutionary scenarios, we developed \texttt{SGLab-tools}, an open-source CLI available at:
+\begin{itemize}
+    \item \url{https://github.com/EtienneNtumba/SGLab-tools}
+    \item \url{https://pypi.org/project/SGLab-tools/}
+\end{itemize}
+
+\section{Results}
+\subsection{Lineage Distribution}
+Lineage assignments among 1,039 isolates: L1 (44), L2 (50), L3 (17), L4 (653), L5 (4), L6 (271). See Table~\ref{tab:lineages}.
+
+\begin{table}[H]
+\centering
+\caption{Lineage distribution of analyzed isolates}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Lineage & Cohort         & Count \\
+\midrule
+L1      & Gambia         & 44    \\
+L2      & Gambia         & 50    \\
+L3      & Gambia         & 17    \\
+L4      & Montreal/Gambia & 653   \\
+L5      & Gambia         & 4     \\
+L6      & Gambia         & 271   \\
+\bottomrule
+\end{tabular}
+\label{tab:lineages}
+\end{table}
+
+\subsection{Reference Bias in SNP Distances}
+Alignments using Lx genomes yielded significantly reduced SNP distances compared to H37Rv, especially for L5 and L6 (see Figure~\ref{fig:snpdist}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{snp_distance_boxplot.png}
+    \caption{Distribution of SNP distances under H37Rv and lineage-specific references.}
+    \label{fig:snpdist}
+\end{figure}
+
+\subsection{Transmission Cluster Reclassification}
+Using a 5-SNP threshold, reference genome choice affected 23\% of inferred clusters. Additional clusters were identified when using Lx references, as shown in Table~\ref{tab:clusters}.
+
+\begin{table}[H]
+\centering
+\caption{Effect of reference on transmission cluster detection}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Metric & H37Rv Only & Lineage-specific \\
+\midrule
+Detected Clusters & 32 & 46 \\
+Affected Isolates & 89 & 120 \\
+New Clusters Found & -- & 14 \\
+Missed Clusters    & 9  & -- \\
+\bottomrule
+\end{tabular}
+\label{tab:clusters}
+\end{table}
+
+\section{Discussion}
+Our findings confirm that the use of H37Rv as a universal reference introduces systematic biases. Adopting lineage-aware analysis strategies provides more accurate clustering, especially in genetically diverse settings.
+
+\section{Conclusion}
+The selection of an appropriate reference genome is critical for WGS-based TB transmission studies. The open-source \texttt{SGLab-tools} pipeline provides a reproducible method for evaluating this impact across multiple genomes.
+
+\section*{Acknowledgements}
+We thank the CONOR team and Dr. Martin Smith for their collaboration. We also acknowledge the funding and technical support provided by the CRCHUM. The development of SGLab-tools is a key technical contribution of this thesis.
+
+\end{document}

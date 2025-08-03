@@ -17,7 +17,7 @@
 
 ---
 
-## 🧰 Fonctionnalités
+## 🧠 Fonctionnalités
 
 - 🔁 Alignement pair-à-pair de génomes avec `minimap2`
 - 🧬 Extraction automatique des différences (SNPs, gaps, insertions, N)
@@ -25,8 +25,9 @@
 - 📊 Comptage de scénarios évolutifs (8 types)
 - 📁 Fusion multi-souches automatique
 - 📈 Génération de visualisations (barplots, heatmaps)
-- 📤 Exports enrichis : `.csv`, `.tsv`, `.xlsx` avec colonnes `Description`, `Total`
+- 📄 Exports enrichis : `.csv`, `.tsv`, `.xlsx` avec colonnes `Description`, `Total`
 - ⚡ Interface CLI intuitive avec `typer`
+- 🔹 Options personnalisables pour `sglab plot` : `--input`, `--output-prefix`, `--fig bar,heat`
 
 ---
 
@@ -93,18 +94,18 @@ Génère :
 ### 3. Visualiser et exporter
 
 ```bash
-sglab plot
+sglab plot --input combined_scenarios_counts1.csv --output-prefix resultats --fig bar,heat
 ```
 
 Résultats :
 
-- `combined_scenarios_augmented.csv/.tsv/.xlsx`
-- `scenarios_barplot.png`
-- `scenarios_heatmap.png`
+- `resultats.csv/.tsv/.xlsx`
+- `resultats_barplot.png`
+- `resultats_heatmap.png`
 
 ---
 
-## 🧮 Scénarios détectés
+## 🧲 Scénarios détectés
 
 | Code | Scénario     | Description                       |
 |------|--------------|-----------------------------------|
@@ -142,7 +143,7 @@ $ sglab run sample.txt                            # Exécute tout le pipeline
 $ sglab count --input fichier.tsv                 # Compte les scénarios sur un fichier TSV
 $ sglab mask --input fichier.tsv --ref REF.bed --query L1.bed
 $ sglab merge                                     # Fusionne les fichiers de scénarios
-$ sglab plot                                      # Génère graphiques + enrichissements
+$ sglab plot --input input.csv --output-prefix figs --fig bar,heat  # Visualisation flexible
 
 Commandes disponibles :
   run     Lancer le pipeline complet
@@ -169,7 +170,7 @@ Ce projet a été réalisé dans le cadre d’une étude sur la diversité géno
 ## 🔗 Liens utiles
 
 - 🔗 [GitHub Repository](https://github.com/EtienneNtumba/SGLab-tools)
-- 📦 [Page PyPI](https://pypi.org/project/SGLab-tools/)
+- 🛆 [Page PyPI](https://pypi.org/project/SGLab-tools/)
 - 🧬 [minimap2](https://github.com/lh3/minimap2)
 - 🧪 [Biopython](https://biopython.org/)
 - ⚙️ [Typer CLI](https://typer.tiangolo.com/)
